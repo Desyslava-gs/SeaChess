@@ -1,0 +1,85 @@
+﻿
+@{
+    var game = ViewData["Game"] as SeaChessModel;
+    string[,] gameMatrix = game.GameMatrix;
+    ViewData["Title"] = "Play SeaChess";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="text-center" style='padding:10px'>
+                <h2>@ViewData["Title"]</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row" style='padding:20px; font-size:30px'>
+        <div class="col-sm-4">
+            <div class="text-right">
+                <p>
+                    Play with: 
+                    @if (game.Player == "X")
+                    {
+                        <span style="color: red; font-size:40px">@game.Player</span>
+                    }
+                    @if (game.Player == "O")
+                    {
+                        <span style="color: limegreen;font-size: 40px">@game.Player</span>
+                    }
+
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <table class="table table-bordered">
+                <tbody class="text-center">
+                    @for (int i = 0; i < 3; i++)
+                    {
+                        <tr>
+                            @for (int j = 0; j < 3; j++)
+                            {
+                                <td>
+                                    <form asp-controller="Home" asp-action="CellOnClick" method="post">
+                                        <input type="hidden" name="row" value="@i">
+                                        <input type="hidden" name="col" value="@j">
+                                        @if (gameMatrix[@i,@j]=="X")
+                                        {
+                                            <button type="submit" style='color: red;width:80px;height:80px;font-size:40px;' class="btn-default">
+                                                @gameMatrix[@i, @j]
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" style='color: limegreen;width:80px;height:80px;font-size:40px;' class="btn-default">
+                                                @gameMatrix[@i, @j]
+                                            </button>
+                                        }
+                                        
+                                    </form>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+    <div class="row" style='padding:20px; font-size:30px'>
+        <div class="col-sm-12 ">
+            <div>
+                @if (game.PlayerWin == "X")
+                {
+                    <p class="row float-right" style="color: red;">"@game.PlayerWin" is the Winner! </p>
+                }
+                @if (game.PlayerWin == "O")
+                {
+                    <p class="row float-right" style="color:limegreen;">"@game.PlayerWin" is the Winner! </p>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
